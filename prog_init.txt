@@ -1,0 +1,229 @@
+-- Crtanje --
+1. Kazem im da ce da rade u processingu, odem na sajt i pokazem im gde mogu da skinu i gde mogu da nadju tutoriale.
+2. Otvorim processing, pokrenem prazan kod.
+3. Povecam velicinu prozora (size(...)).
+4. Promenim pozadinu (background(...)) i objasnim RGB ?i color selector?.
+5. Nacrtam krug (ellipse(...)) i objasnim koordinatni sistem na tabli (y ide na dole), pored toga, nacrtam pravougaonik i liniju.
+6. Pokazem im gde mogu da nadju reference (help -> references) i kako da ih koriste (na primeru za liniju).
+7. Objasnim bojenje (fill(...), stroke(...)).
+8. Pokazem kako se promenom redosleda koda menja koji oblik se prvo crta.
+
+Na kraju ovog dela bi kod izledao ovako nekako:
+
+size(500, 500);
+background(196, 249, 255); //svetlo plava boja
+fill(255, 196, 244); // svetlo roze
+stroke(173, 0, 84); // tamno roze
+ellipse(200, 300, 100, 100);
+fill(225, 255, 198); // svetlo zeleno
+stroke(88, 175, 0); // tamno zeleno
+rect(100, 170, 200, 100);
+stroke(#003986); // tamno plavo
+line(200, 400, 400, 100);
+
+-- setup() i draw() --
+1. Objasnim im problem animacije uz ovaj gif:
+https://upload.wikimedia.org/wikipedia/commons/e/ee/Animexample3edit.png
+https://upload.wikimedia.org/wikipedia/commons/a/a4/Animexample.gif
+2. Napisem sledeci kod i objasnim da se setup pkokrece kada se klikne play (na pocetku programa), a draw se pokrece 30 puta u sekundi:
+
+void setup() {
+	size(500, 500);
+}
+
+void draw() {
+	ellipse(100, 250, 10, 100);
+}
+
+3. Dodajem promenljivu za x koordinatu kruga i pomeram ga udesno. Posle toga dodajem pozadinu i boje:
+
+float x;
+
+void setup() {
+  size(500, 500);
+  x = 100;
+}
+
+void draw() {
+  background(196, 249, 255);
+  fill(255, 196, 244);
+  stroke(173, 0, 84);
+  ellipse(x, 250, 10, 10);
+  x = x + 3;
+}
+
+-- Bouncy Ball --
+1. Objasnjavam problem. Loptica koja se krece u polju gravitacionog polja sa pocetnom brzinom.
+2. Deklarisem promenljive (x, y, vx, vy, r, g) i inicializujem ih.
+3. Skaliram koordinate tako da jednom metru odgovara 100 pixela (na tabli prvo).
+4. Objasnim kako radi updateovanje koordinata na tabli: v = Δx/Δt => Δt * v = Δx => x = x + Δx = x + Δt * v. (isto i za a = Δv/Δt).
+5. U draw() iskucam updejte.
+6. Ubacim odbijanje od poda, pa od zidova. (usput crtam na tabli sta se desava)
+?7. Debug?
+?8. PVector?
+
+Na kraju ovog dela bi kod izledao ovako nekako:
+
+float x, y, vx, vy, g, r, s, dt;
+
+void setup() {
+  size(500, 500);
+  x = 1;
+  y = 1;
+  vx = 1;
+  vy = 0;
+  g = 9.81;
+  r = 0.1;
+  s = 100;
+  dt = 1/30.0;
+}
+
+void draw() {
+  //Update
+  vy = vy + dt*g;
+  x = x + dt*vx;
+  y = y + dt*vy;
+  if (y + r > height / s) {
+    y = y - dt*vy;
+    x = x - dt*vx;
+    vy = - vy;
+  }
+  if (x + r> width / s || x - r < 0) {
+    vx = - vx;
+  }
+  //Draw
+  background(196, 249, 255);
+  fill(255, 196, 244);
+  stroke(173, 0, 84);
+  ellipse(x*s, y*s, 2*r*s, 2*r*s);
+}
+
+-- Ispisivanje --
+                                                                                
+1. Ispisem random text u cosku (text("Здраво", 5, 20)).
+2. Ispisem formulu i vrednost za brzinu, kineticku, potencijalnu i ukupnu energiju.
+  
+fill(0);
+float v = sqrt(vx*vx + vy*vy);
+float Ek = m*v*v/2;
+float Ep = m*g*(height/s - y);
+float Eu = Ek + Ep;
+text("Брзина: " + nf(v, 0, 2) + " m/s", 5, 20);
+text("Кинетичка Енергија: " + nf(Ek, 0, 2) + " J", 5, 40);
+text("Потенцијална Енергија: " + nf(Ep, 0, 2) + " J", 5, 60);
+text("Укупна Енергија: " + nf(Eu, 0, 2) + " J", 5, 80);
+
+3. Objasnim zasto ukupna energija varira (dt nije beskonacno malo).
+
+?
+4. vise koraka u jednom draw-u:
+
+int k = 100;
+for (int i = 0; i < k; i++) {
+	vy = vy + dt*g/k;
+	x = x + dt*vx/k;
+	y = y + dt*vy/k;
+	if (y + r > height / s) {
+		y = y - dt*vy/k;
+		x = x - dt*vx/k;
+		vy = - vy;
+	}
+	if (x + r > width / s || x - r < 0) {
+		vx = - vx;
+	}
+}
+?
+
+-- mousePressed() i keyPressed() --
+
+1. Prvo pokazem kako keyPressed() moze da promeni vrednost promenljive:
+
+void keyPressed() {
+  if (key == ' ') x = 0;
+}
+
+2. Napravim da se menja brzina na dugme:
+
+void keyPressed() {
+  if (key == 'a') {
+    vx = vx/2;
+    vy = vy/2;
+  }
+  if (key == 's') {
+    vx = vx*2;
+    vy = vy*2;
+  }
+}
+
+3. mousePressed() za pomeranja polozaja:
+
+void mousePressed() {
+  x = mouseX / s;
+  y = mouseY / s;
+}
+
+-- Kraj --
+float x, y, vx, vy, g, r, s, dt, m;
+
+void setup() {
+  size(500, 500);
+  x = 1;
+  y = 1;
+  vx = 1;
+  vy = 0;
+  g = 9.81;
+  r = 0.1;
+  s = 100;
+  dt = 1/30.0;
+  m = 0.1;
+}
+
+void draw() {
+  //Update
+  int k = 100;
+  for (int i = 0; i < k; i++) {
+    vy = vy + dt*g/k;
+    x = x + dt*vx/k;
+    y = y + dt*vy/k;
+    if (y + r > height / s) {
+      y = y - dt*vy/k;
+      x = x - dt*vx/k;
+      vy = - vy;
+    }
+    if (x + r > width / s || x - r < 0) {
+      vx = - vx;
+    }
+  }
+  //Draw
+  background(196, 249, 255);
+  fill(255, 196, 244);
+  stroke(173, 0, 84);
+  ellipse(x*s, y*s, 2*r*s, 2*r*s);
+
+  fill(0);
+  float v = sqrt(vx*vx + vy*vy);
+  float Ek = m*v*v/2;
+  float Ep = m*g*(height/s - y);
+  float Eu = Ek + Ep;
+  text("Брзина: " + nf(v, 0, 2) + " m/s", 5, 20);
+  text("Кинетичка Енергија: " + nf(Ek, 0, 2) + " J", 5, 40);
+  text("Потенцијална Енергија: " + nf(Ep, 0, 2) + " J", 5, 60);
+  text("Укупна Енергија: " + nf(Eu, 0, 2) + " J", 5, 80);
+}
+
+void mousePressed() {
+  x = mouseX / s;
+  y = mouseY / s;
+}
+
+void keyPressed() {
+  if (key == 'a') {
+    vx = vx/2;
+    vy = vy/2;
+  }
+  if (key == 's') {
+    vx = vx*2;
+    vy = vy*2;
+  }
+}
+
