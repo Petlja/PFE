@@ -63,11 +63,76 @@ Pored navedenih funkcija postoje mnogobrojne druge i nije potrebno znati ih sve 
 Korišćenje referenci je dobra praksa jer koncetriše razmišljanje na logiku.
 Reference možete naći u help->references ili na [njihovom sajtu](https://processing.org/).
 
-## Animacije
+## Simulacije
+
+Najveća moć processinga je u njegovoj mogućnosti da na osnovu neke logike menja slike.
+Time može da se koristi za pravljenje raznih simulacija, animacija i igrica.
  
 ### setup() i draw()
 
-### Poeranje
+Funkcije koje ovo omogućavaju su `setup()` i `draw()`.
+`setup()` je funkcija koja se pokreće jedanput na početku pokretanja programa i služi za podešavanje 
+veličine ekrana i početnih vrednosti promenljivih.
+Dok, sa druge strane, `draw()` je funkcija koja se izvršava više puta (najčešće 30 puta u sekundi) i služi 
+da se u njoj menjaju vrednosti promenljivih i za crtanje.
+
+Sledeći program je prier korišćenja funkcija:
+
+```Java
+void setup() {
+ size(500, 500);
+}
+
+void draw() {
+ background(200, 240, 255);
+ fill(255, 240, 200);
+ ellipse(300, 200, 100, 100);
+}
+```
+
+### Pomeranje
+
+Prethodni program je vršio iscrtavanje iste slike 30 puta u sekundi što nije korisno.
+Da bi se krug pomerao, potrebno je uvesti promenljive za njegove koordinate.
+Neka krug ima samo `x` kordinatu koja će biti tipa `float` i neka se menja za `1.0` 30 puta u sekundi:
+
+```Java
+float x;
+
+void setup() {
+ x = 100.0;
+ size(500, 500);
+}
+
+void draw() {
+ x += 1.0;
+
+ background(200, 240, 255);
+ fill(255, 240, 200);
+ ellipse(x, 250, 100, 100);
+}
+```
+
+**Napomena** Deklarisanje globalnih promenljivih se vrši van funkcija `setup()` i `draw()`, a inicializacija u 
+funkciji `setup()`.
+
+### Interakcije
+
+Pored samog menjanja vrednosti promenljivih, moguće je napraviti program koji uzima komande od korisnika.
+Postoje dve najbitnije funkcije: `mousePressed()` i `keyPressed()`.
+Dodavanjem sledećeg primera na prethodni kod, loptica se pomera ukoliko je pritisnuto određeno dugme:
+
+```Java
+void mousePressed(){
+ if (mouseKey == LEFT) x = 100;
+ if (mouseKey == RIGHT) x = 200;
+}
+
+void keyPresed() {
+ if (key == 'a') x = 100;
+ if (key == 'd') x = 200;
+}
+````
 
 ## Bouncy Ball
 
