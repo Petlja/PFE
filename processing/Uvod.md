@@ -1,19 +1,18 @@
 # Uvod u Processing
 
-*ovde treba da stoji par recenica o tome sta je processing*
-
-Processing može da se skine besplatno sa njihovog [sajta](https://www.processing.org) i nije potrebna instalacija.
-
-## Crtanje
-
 Grafika u oblasti programiranja je često tema koja se ne pominje u školama.
 Mnogi programski jezici ne podržavaju jednostavno pravljenje programa sa vizuelnim elementima, već zahtevaju veliko predznanje.
 Processing rešava mnoge probleme time što ima unapred spremne funkcije za crtanje jednostavnih oblika i njihovu manipulaciju.
 
+Processing može da se skine besplatno sa njihovog [sajta](https://www.processing.org) i nije potrebna instalacija.
+Na sajtu takđe postoje dobre reference i tutorijali na engleskom.
+
+## Crtanje
+
 Na slici ispod je prikazan prozor koji se pojavi pri pokretanju aplikacije processing.
 Pokretanjem praznog program (dugme) pojavljuje se prazan prostor po kome može da se crta.
 
-![pic1]("Izgled Processing aplikacije")
+![pic1](https://processing.org/tutorials/gettingstarted/imgs/Fig_02_01.gif "Izgled Processing aplikacije")
 
 ### size
 
@@ -45,7 +44,7 @@ Recimo, za krug se koristi funkcija `ellipse(x, y, w, h)` kojoj se prosleđuje k
 ellipse(300, 200, 100, 100);
 ```
 
-**Oprez** Processing koristi koordinatnu osu koja je okrenuta po y osi, tako da y koordinata pretstavlja udaljenost od gornje ivice, a ne donje.
+**Napomena** Processing koristi koordinatnu osu koja je okrenuta po y osi, tako da y koordinata pretstavlja udaljenost od gornje ivice, a ne donje.
 
 ### fill i stroke
 
@@ -80,13 +79,13 @@ Sledeći program je prier korišćenja funkcija:
 
 ```Java
 void setup() {
- size(500, 500);
+  size(500, 500);
 }
 
 void draw() {
- background(200, 240, 255);
- fill(255, 240, 200);
- ellipse(300, 200, 100, 100);
+  background(200, 240, 255);
+  fill(255, 240, 200);
+  ellipse(300, 200, 100, 100);
 }
 ```
 
@@ -100,16 +99,16 @@ Neka krug ima samo `x` kordinatu koja će biti tipa `float` i neka se menja za `
 float x;
 
 void setup() {
- x = 100.0;
- size(500, 500);
+  x = 100.0;
+  size(500, 500);
 }
 
 void draw() {
- x += 1.0;
-
- background(200, 240, 255);
- fill(255, 240, 200);
- ellipse(x, 250, 100, 100);
+  x += 1.0;
+  
+  background(200, 240, 255);
+  fill(255, 240, 200);
+  ellipse(x, 250, 100, 100);
 }
 ```
 
@@ -124,13 +123,13 @@ Dodavanjem sledećeg primera na prethodni kod, loptica se pomera ukoliko je prit
 
 ```Java
 void mousePressed(){
- if (mouseKey == LEFT) x = 100;
- if (mouseKey == RIGHT) x = 200;
+  if (mouseKey == LEFT) x = 100;
+  if (mouseKey == RIGHT) x = 200;
 }
 
 void keyPresed() {
- if (key == 'a') x = 100;
- if (key == 'd') x = 200;
+  if (key == 'a') x = 100;
+  if (key == 'd') x = 200;
 }
 ```
 
@@ -153,25 +152,25 @@ Gotovo identične jednačine važe i za ubrzanje: ax = Δvx / Δt, `vx = vx + ax
 float x, y, vx, vy, g, dt, r, scale;
 
 void setup() {
- size(800, 600);
- x = 1; // x koordinata
- y = 1; // y koordinata
- vx = 1; // brzina po x osi
- vy = 0; // brzina po y osi
- g = 9.81;  // Ubrzanje zemljine teze
- dt = 1/30.0; // Promena vremena
- r = 0.1; // poluprecnik loptice
- scale = 100;
+  size(800, 600);
+  x = 1; // x koordinata
+  y = 1; // y koordinata
+  vx = 1; // brzina po x osi
+  vy = 0; // brzina po y osi
+  g = 9.81;  // Ubrzanje zemljine teze
+  dt = 1/30.0; // Promena vremena
+  r = 0.1; // poluprecnik loptice
+  scale = 100;
 }
 
 void draw() {
- vy += g*dt;
- x += vx*dt;
- y += vy*dt;
- 
- background(200, 240, 255);
- fill(255, 240, 200);
- ellipse(x * scale, y * scale, 2 * r * scale, 2 * r * scale);
+  vy += g*dt;
+  x += vx*dt;
+  y += vy*dt;
+
+  background(200, 240, 255);
+  fill(255, 240, 200);
+  ellipse(x * scale, y * scale, 2 * r * scale, 2 * r * scale);
 }
 ```
 
@@ -180,26 +179,78 @@ Vrednosti koje se čuvaju u promenljivama za koordinate su u metrima, a Processi
 Ovaj problem se rešava uvodjenjem promenljive `scale` koja pretstavlja broj piksela koji pretstavljaju jedan metar.
 Množenjem promenljivih ovim brojem pre iscrtavanja dobijaju se vrednosti u pikselima.
 
-### Odbijanje od zidova
+### Odbijanje
+
+U prethodnom programu loptica je padala i izvan ekrana i više se nije pojavljivala.
+Kod za odbijanje od podloge se može implentirati nakon koda za promenu koordinata:
+
+```Java
+y += vy*dt;
+x += vx*dt;
+if ((y + r)*scale > height) {
+  y -= vy*dt;
+  x -= vx*dt;
+  vy = -vy;
+}
+```
+
+**Napomena** Da bi osigurali da loptica ne ode ispod ekana, potrebno je da čim loptica ode ispod vrati u položaj u kome je 
+bila pre udarca u pod i obrne smer brzine.
+
+Odbijanje od levog i desnog zida se radi identično:
+
+```Java
+if ((x + r)*scale > height && (x - r)*scale < 0) {
+  y -= vy*dt;
+  x -= vx*dt;
+  vx = -vx;
+}
+```
 
 ### Merenje i primena
 
+Osim što lepo izgleda, simulacija treba da vrati korisnu informaciju.
+Najjednostavnije vrednosti koje mogu da se dobiju iz prethodne simulacije su energije loptice (kinetička i potencijalna).
+
+Formula za kinetičku, potencijalnu i ukupnu energiju su: `Ek = m*v*v/2`, `Ep = m*g*h` i `Eu = Ek + Ep`.
+Te vrednosti se mogu jednostavno ispisati na ekran:
+
+```Java
+float v = sqrt(vx * vx + vy * vy);
+float Ek = m*v*v/2;
+float Ep = m*g*(height/s - y);
+float Eu = Ek + Ep;
+text("Брзина: " + nf(v, 0, 2) + " m/s", 5, 20);
+text("Кинетичка Енергија: " + nf(Ek, 0, 2) + " J", 5, 40);
+text("Потенцијална Енергија: " + nf(Ep, 0, 2) + " J", 5, 60);
+text("Укупна Енергија: " + nf(Eu, 0, 2) + " J", 5, 80);
+```
+
+**Napomena** Funkcija `nf(float, int, int)` formatira realan broj.
+Prvi argument je broj koji se formatira, drugi pretstavlja broj cifara pre decimalne tačke (0 označava proizvoljan broj cifara), a treći nakon.
+
 ## Projekti
 
-### Flood fill
-
-### Matematičko klatno
-
-### Električno polje
-
-### N body
-
-### 4 mrava
+Na zimskom seminaru Primenjene fizike i elektronike su podeljeni projekti za samostalni rad.
+U ovom odeljku su opisani ciljevi projekata.
 
 ### Kosi hitac
 
-### Game of Life
+1. Na početku postoji loptica koja se nalazi na podu u jednom od ćoškova.
+Pritiskom na ekran, loptica dobija početnu brzinu usmerenu od loptice ka mišu.
+
+### 4 mrava
+
+### N body
+
+### Matematičko klatno
 
 ### Crtanje funkcija
+
+### Električno polje
+
+### Flood fill
+
+### Game of Life
 
 ### Tetris bot
