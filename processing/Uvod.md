@@ -239,18 +239,74 @@ U ovom odeljku su opisani ciljevi projekata.
 1. Na početku postoji loptica koja se nalazi na podu u jednom od ćoškova.
 Pritiskom na ekran, loptica dobija početnu brzinu usmerenu od loptice ka mišu.
 
+2. Pre ispaljivanja loptice potrebno je prikazati putanju kojom će se loptica kretati nakon pritiska i ispisati domet.
+
+3. Ubaciti u simulaciju da pre ispaljivanja može da se namesti smer i brzina vetra.
+
 ### 4 mrava
+
+1. Postoje 4 mrava koji su postavljeni na po jednom od 4 temena kvadrata.
+Svaki mrav se kreće ka mravu koji se nalazi levo od njega.
+Simulirati ovo ponašanje. Izlaz treba izgledati kao 4 spirale.
+
+2. Napraviti da postoji `n` mrava u temenima pravilnog n-tougla.
+
+3. Postaviti početne položaje mrava u nasumične koordinate.
 
 ### N body
 
+1. U posudi se nalazi `n` čestica i svaka se kreće istom brzinom `v`.
+Čestice su okruglog oblika i odbijaju se od zidova.
+
+2. Implementirati odbijanje čestica.
+
+3. Dodati na vrh posude klip i ispisati pritisak koji deluje na klip.
+
 ### Matematičko klatno
+
+1. Simulirati matematičko koje osciluje pod dejstvom zemljine teže i ispisati njegov period.
+
+2. Simulirati dvostruko mateatičko klatno sa istim uslovima.
+
+3. Simulirati i iscrtati dva dvostruka klatna čiji se početni uglovi razlikuju za veoma malu vrednost.
 
 ### Crtanje funkcija
 
+1. Nacrtati koordinatne ose i grafik proizvoljne funkcije.
+
+2. U isto vreme nacrtati izvod i integral funkcije.
+
+3. Nacrtati tangentu na funkciju na koordinati x na kojoj se nalazi miš. 
+Takođe, nacrtati površinu ispod grafika od tačke x=0 do koordinate x na kojoj se nalazi miš.
+Ispisati koeficijent prave tangente i površinu.
+
 ### Električno polje
+
+1. Pritiskom na ekran dodati naelektrisane čestice (pozitivne xili negativne) i iscrtati intenzitet električnog polja 
+u svakoj tački na ekranu.
+
+2. Iscrtati liniju polja i ekvipotencijalu koja prolazi kroz miš.
+
+3. Iscrtati vektore električnog polja na velikom broju tačaka.
 
 ### Flood fill
 
+1. Data je matrica `n*m` cijim poljima je dodeljena boja. Simulacija se pokreće pritiskom na jedno od polja matrice 
+(boja pritisnutog polja je `c`). Treba promeniti boju svih polja koje imaju boju `c` i imaju direktan put do pritisnutog polja
+preko bilo kog polja sa bojom `c`.
+
+2. Prikazati simulaciju usporeno tako da jedno polje menja boju po pozivanju funkcije `draw()`.
+
+3. Ispisati udaljenost svakog novo obojenog polja od pritisnutog polja.
+
 ### Game of Life
 
+1. Napraviti simulaciju Convejove igre zivota (Conway's Game of Life): [pravila](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
+
+2. Dodati dodatne opcije za promenu pravila, odnosno dugme za promenu potrebnih suseda za promenu stanja.
+
+3. Napraviti program kojem se prosledjuje tekstualni fajl sa pravilima i koji radi sa `n` stanja.
+
 ### Tetris bot
+
+Napraviti robota koji igra tetris.
