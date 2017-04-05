@@ -132,11 +132,53 @@ void keyPresed() {
  if (key == 'a') x = 100;
  if (key == 'd') x = 200;
 }
-````
+```
 
 ## Bouncy Ball
 
+Do sada su prikazane osnovne funkcionalnosti Processinga, ovaj odeljak se bavi konkretnim primerom.
+Bouncy Ball je simulacija kretanja loptice pod dejstvom zemljine teže.
+
 ### Modelovanje
+
+Bouncy Ball je fizički sistem koji je potrebno pretvoriti u matematički model (jednačine) da bi mogao da se simulira.
+U školama se uči poznata jednačina vx = Δx / Δt, koja kaže da brzina tela pretstavlja količnik promene položaja (Δx) i vremena za koje se ta promena dogodi (Δt).
+
+U simulaciji se promena promenljivih dešava 30 puta u sekundi (`draw()`), pa se stavlja Δt = 1/30.
+Ako je poznata brzina tela, onda je Δx = vx * Δt, odnosno pri svakom izvrsavanju funkcije `draw()` vrednost koordinate
+se menja za Δx: `x = x + vx * dt`.
+Gotovo identične jednačine važe i za ubrzanje: ax = Δvx / Δt, `vx = vx + ax * dt`.
+
+```Java
+float x, y, vx, vy, g, dt, r, scale;
+
+void setup() {
+ size(800, 600);
+ x = 1; // x koordinata
+ y = 1; // y koordinata
+ vx = 1; // brzina po x osi
+ vy = 0; // brzina po y osi
+ g = 9.81;  // Ubrzanje zemljine teze
+ dt = 1/30.0; // Promena vremena
+ r = 0.1; // poluprecnik loptice
+ scale = 100;
+}
+
+void draw() {
+ vy += g*dt;
+ x += vx*dt;
+ y += vy*dt;
+ 
+ background(200, 240, 255);
+ fill(255, 240, 200);
+ ellipse(x * scale, y * scale, 2 * r * scale, 2 * r * scale);
+}
+```
+
+**Napomena** Pored implementacije samog modela, potreban je način da se simulacija prikaže na lep način.
+Vrednosti koje se čuvaju u promenljivama za koordinate su u metrima, a Processing zahteva da jedinice budu u pikselima.
+Ovaj problem se rešava uvodjenjem promenljive `scale` koja pretstavlja broj piksela koji pretstavljaju jedan metar.
+Množenjem promenljivih ovim brojem pre iscrtavanja dobijaju se vrednosti u pikselima.
 
 ### Odbijanje od zidova
 
